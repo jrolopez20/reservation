@@ -1,7 +1,7 @@
 <mat-card>
-  <mat-card-header *transloco="let t; read: 'concept'">
-    <mat-card-title>{{ t("pluralLabel") }}</mat-card-title>
-    <mat-card-subtitle>{{ t("selection.subtitle") }}</mat-card-subtitle>
+  <mat-card-header>
+    <mat-card-title>Concepts</mat-card-title>
+    <mat-card-subtitle>Select the concepts you want to schedule</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <mat-selection-list #conceptsSelector>
@@ -15,13 +15,12 @@
   <mat-card-actions align="end">
     <button
       mat-flat-button
-      *transloco="let t; read: 'schedule'"
       (click)="onSchedule()"
       [disabled]="conceptsSelector.selectedOptions.isEmpty()"
       color="primary"
-      [matTooltip]="t('tooltip')"
+      matTooltip="Schedule the selected concepts"
     >
-      {{ t("label") }}
+     Schedule
     </button>
   </mat-card-actions>
 </mat-card>
