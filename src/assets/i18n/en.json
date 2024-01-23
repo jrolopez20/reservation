@@ -1,0 +1,15 @@
+{
+  "concept": {
+    "label": "Concept",
+    "pluralLabel": "Concepts",
+    "placeholder": "Enter concept",
+    "error": " Concept is required",
+    "selection": {
+      "subtitle": "Select the concepts you want to schedule"
+    }
+  },
+  "schedule": {
+    "label": "Schedule",
+    "tooltip": "Schedule the selected concepts"
+  }
+}

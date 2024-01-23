@@ -1,0 +1,46 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$kenvue-palette: (
+  50: #dff4f0,
+  100: #b1e3d9,
+  200: #7ed2c1,
+  300: #45bfa8,
+  400: #00b096,
+  500: #00a184,
+  600: #009477,
+  700: #008367,
+  800: #007358,
+  900: #00563d,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+$my-primary: mat.define-palette($kenvue-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-warn: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($my-theme);
