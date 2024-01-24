@@ -4,7 +4,7 @@ export interface ConceptInterface {
   _id: string;
   name: string;
   positions: PositionInterface[];
-  available: boolean;
+  enabled: boolean;
 }
 
 export const CONCEPTS: ConceptInterface[] = [
@@ -12,25 +12,25 @@ export const CONCEPTS: ConceptInterface[] = [
     _id: 'a4dg6x1',
     name: 'Work station',
     positions: [
-      { name: '1' },
-      { name: '2' },
-      { name: '3' },
-      { name: '4' },
-      { name: '5' },
-      { name: '6' },
-      { name: '7' },
+      { name: '1', enabled: false },
+      { name: '2', enabled: true },
+      { name: '3', enabled: true },
+      { name: '4', enabled: false },
+      { name: '5', enabled: true },
+      { name: '6', enabled: true },
+      { name: '7', enabled: true },
     ],
-    available: true,
+    enabled: true,
   },
   {
     _id: 'n21f256',
     name: 'Parking',
     positions: [
-      { name: 'A' },
-      { name: 'B' },
-      { name: 'C' },
-      { name: 'D' },
+      { name: 'A', enabled: true },
+      { name: 'B', enabled: false },
+      { name: 'C', enabled: true },
+      { name: 'D', enabled: true },
     ],
-    available: true,
+    enabled: true,
   },
 ];

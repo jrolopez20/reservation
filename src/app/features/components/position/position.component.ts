@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ConceptInterface, PositionInterface } from '../../models';
+import { PositionInterface } from '../../models';
 
 @Component({
   selector: 'app-position',
@@ -12,6 +12,8 @@ export class PositionComponent {
   @Output() positionSelected = new EventEmitter<PositionInterface>();
 
   onClick() {
-    this.positionSelected.emit(this.position);
+    if (this.position.enabled) {
+      this.positionSelected.emit(this.position);
+    }
   }
 }

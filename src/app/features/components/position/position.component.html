@@ -3,7 +3,7 @@
   fxLayoutAlign="center"
   fxFlex
   (click)="onClick()"
-  [attr.disabled]="position.name === '2' ? true : null"
+  [attr.disabled]="!position.enabled ? true : null"
 >
   <span>
     {{ position.name }}

@@ -70,8 +70,11 @@ export class SelectDateComponent {
     this.activeTab = 1;
   }
 
-  onPositionSelected(position: PositionInterface) {
-    console.log(this.selectedConcept, position);
+  onPositionSelected(position: PositionInterface | null) {
     this.activeTab = 0;
+    if(position) {
+
+    }
+    console.log(this.selectedConcept, position);
   }
 }

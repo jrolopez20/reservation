@@ -5,12 +5,20 @@
       >Select a work station for the date
       {{ date | date : "mediumDate" }}</mat-card-subtitle
     >
+    <div class="card-header-actions">
+      <button mat-icon-button aria-label="Go back" color="accent" matTooltip="Go back" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
   </mat-card-header>
   <mat-card-content fxLayout="row wrap">
-      @for (position of concept.positions; track position.name) {
-      <div class="item" fxFlex="20" fxFlex.xs="25">
-        <app-position [position]="position" (positionSelected)="onPositionSelected($event)"></app-position>
-      </div>
-      }
+    @for (position of concept.positions; track position.name) {
+    <div class="item" fxFlex="20" fxFlex.xs="25">
+      <app-position
+        [position]="position"
+        (positionSelected)="onPositionSelected($event)"
+      ></app-position>
+    </div>
+    }
   </mat-card-content>
 </mat-card>

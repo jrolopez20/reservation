@@ -10,9 +10,13 @@ import { ConceptInterface, PositionInterface } from '../../models';
 export class PositionListComponent {
   @Input({ required: true }) date!: Date;
   @Input({ required: true }) concept!: ConceptInterface;
-  @Output() positionSelected = new EventEmitter<PositionInterface>();
+  @Output() positionSelected = new EventEmitter<PositionInterface | null>();
 
   onPositionSelected(position: PositionInterface) {
     this.positionSelected.emit(position);
+  }
+
+  goBack() {
+    this.positionSelected.emit();
   }
 }
