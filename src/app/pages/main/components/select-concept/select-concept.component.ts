@@ -4,7 +4,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatSelectionList } from '@angular/material/list';
-import { CONCEPTS } from '../../../../core/interfaces';
+import { CONCEPTS } from '../../../../features/models';
 
 @Component({
   selector: 'app-select-concept',

@@ -13,6 +13,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatListModule,
     MatTooltipModule,
     MatChipsModule,
+    MatTabsModule,
   ],
 })
 export class AppMaterialModule {}

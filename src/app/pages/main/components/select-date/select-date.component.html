@@ -1,5 +1,26 @@
 <div class="container">
-  @for (date of dateRange; track date) {
-  <app-date-item [date]="date" [concepts]="concepts"></app-date-item>
-  }
+  <mat-tab-group [selectedIndex]="activeTab">
+    <mat-tab>
+      <div class="tab-container">
+        @for (date of dateRange; track date) {
+        <app-date-item
+          [date]="date"
+          [concepts]="concepts"
+          (selectedConcept)="onSelectedConcept($event)"
+        ></app-date-item>
+        }
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <div class="tab-container">
+        @if (selectedConcept) {
+        <app-position-list
+          [date]="selectedConcept.date"
+          [concept]="selectedConcept.concept"
+          (positionSelected)="onPositionSelected($event)"
+        ></app-position-list>
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

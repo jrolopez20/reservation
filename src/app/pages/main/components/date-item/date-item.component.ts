@@ -1,8 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ConceptInterface } from '../../../../core/interfaces';
+import {
+  ConceptInterface,
+  ReservationInterface,
+} from '../../../../features/models';
+import { MatChipSelectionChange } from '@angular/material/chips';
+
+export type SelectedConcept = {
+  date: Date;
+  concept: ConceptInterface;
+};
 
 @Component({
   selector: 'app-date-item',
@@ -14,8 +23,16 @@ import { ConceptInterface } from '../../../../core/interfaces';
 export class DateItemComponent {
   @Input() date = new Date();
   @Input() concepts: ConceptInterface[] = [];
+  @Output() selectedConcept = new EventEmitter<SelectedConcept>();
 
   constructor() {
-    console.log(this.concepts);
+  }
+
+  onSelectionChange(selection: MatChipSelectionChange, date: Date) {
+    if (selection.selected) {
+      this.selectedConcept.emit({ date, concept: selection.source.value });
+    } else {
+      // TODO prom before change
+    }
   }
 }

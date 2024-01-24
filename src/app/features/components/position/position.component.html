@@ -1,0 +1,11 @@
+<div
+  class="position-card"
+  fxLayoutAlign="center"
+  fxFlex
+  (click)="onClick()"
+  [attr.disabled]="position.name === '2' ? true : null"
+>
+  <span>
+    {{ position.name }}
+  </span>
+</div>

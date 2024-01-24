@@ -1,18 +1,25 @@
 import { Component } from '@angular/core';
-import { DateItemComponent } from '../date-item/date-item.component';
-import { CONCEPTS, ConceptInterface } from '../../../../core/interfaces';
+import {
+  DateItemComponent,
+  SelectedConcept,
+} from '../date-item/date-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppMaterialModule } from '../../../../app-material.module';
+import { FeaturesModule } from '../../../../features/features.module';
+import { CONCEPTS, ConceptInterface, PositionInterface } from '../../../../features/models';
 
 @Component({
   selector: 'app-select-date',
   standalone: true,
-  imports: [DateItemComponent],
+  imports: [DateItemComponent, AppMaterialModule, FeaturesModule],
   templateUrl: './select-date.component.html',
   styleUrl: './select-date.component.scss',
 })
 export class SelectDateComponent {
   dateRange: Date[] = [];
   concepts: ConceptInterface[] = [];
+  activeTab: number = 0;
+  selectedConcept: SelectedConcept | null = null;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     const params = activatedRoute.snapshot.queryParams;
@@ -56,5 +63,15 @@ export class SelectDateComponent {
       }
     }
     return arr;
+  }
+
+  onSelectedConcept(selectedConcept: SelectedConcept) {
+    this.selectedConcept = selectedConcept;
+    this.activeTab = 1;
+  }
+
+  onPositionSelected(position: PositionInterface) {
+    console.log(this.selectedConcept, position);
+    this.activeTab = 0;
   }
 }

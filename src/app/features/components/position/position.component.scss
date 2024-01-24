@@ -1,0 +1,43 @@
+@use "@angular/material" as mat;
+
+.position-card {
+  border-radius: 5px;
+  border-top: 3px solid #00b096;
+  padding: 15px 10px;
+  cursor: pointer !important;
+  @include mat.elevation-transition();
+  @include mat.elevation(1);
+  span {
+    color: rgb(50, 60, 60);
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &:hover {
+    @include mat.elevation(5);
+  }
+}
+
+.position-card[disabled] {
+  border-top: 3px solid #45bfa8;
+  background-color: #efefef;
+  span {
+    color: gray;
+
+  }
+  // border-radius: 5px;
+  // border-top: 3px solid #00b096;
+  // padding: 15px 10px;
+  // cursor: pointer !important;
+  // @include mat.elevation-transition();
+  // @include mat.elevation(1);
+  // span {
+  //   color: rgb(50, 60, 60);
+  //   font-size: 18px;
+  //   font-weight: 500;
+  // }
+
+  &:hover {
+    @include mat.elevation(1);
+  }
+}

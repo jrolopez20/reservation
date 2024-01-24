@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Work station</mat-card-title>
+    <mat-card-subtitle
+      >Select a work station for the date
+      {{ date | date : "mediumDate" }}</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content fxLayout="row wrap">
+      @for (position of concept.positions; track position.name) {
+      <div class="item" fxFlex="20" fxFlex.xs="25">
+        <app-position [position]="position" (positionSelected)="onPositionSelected($event)"></app-position>
+      </div>
+      }
+  </mat-card-content>
+</mat-card>
