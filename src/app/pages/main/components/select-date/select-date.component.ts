@@ -6,7 +6,13 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { FeaturesModule } from '../../../../features/features.module';
-import { CONCEPTS, ConceptInterface, PositionInterface } from '../../../../features/models';
+import {
+  CONCEPTS,
+  ConceptInterface,
+  PositionInterface,
+  RESERVATIONS,
+  ReservationInterface,
+} from '../../../../features/models';
 
 @Component({
   selector: 'app-select-date',
@@ -18,13 +24,14 @@ import { CONCEPTS, ConceptInterface, PositionInterface } from '../../../../featu
 export class SelectDateComponent {
   dateRange: Date[] = [];
   concepts: ConceptInterface[] = [];
+  reservations: ReservationInterface[] = [];
   activeTab: number = 0;
   selectedConcept: SelectedConcept | null = null;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     const params = activatedRoute.snapshot.queryParams;
     this.concepts = this.loadConcepts(params['concepts']);
-    console.log(this.concepts);
+    this.reservations = this.loadReservations(params['concepts']);
     const start = new Date();
     const end = new Date();
     end.setDate(end.getDate() + 15);
@@ -39,7 +46,7 @@ export class SelectDateComponent {
     }
 
     //TODO replace this logic with an http call an retrieve the concepts from the server
-    this.concepts = CONCEPTS.filter((c) => {
+    const concepts = CONCEPTS.filter((c) => {
       if (typeof conceptsIds === 'string') {
         return c._id === conceptsIds;
       } else {
@@ -47,7 +54,13 @@ export class SelectDateComponent {
       }
     });
 
-    return this.concepts;
+    return concepts;
+  }
+
+  private loadReservations(conceptsIds: string[]): ReservationInterface[] {
+    //TODO replace this logic with an http call an retrieve the concepts from the server
+    const reservations = RESERVATIONS;
+    return reservations;
   }
 
   private createDateRange(start: Date, end: Date) {
@@ -72,9 +85,29 @@ export class SelectDateComponent {
 
   onPositionSelected(position: PositionInterface | null) {
     this.activeTab = 0;
-    if(position) {
-
+    if (position) {
+      // TODO save the info
+      if (this.selectedConcept) {
+        const reservation: ReservationInterface = {
+          _id: 'x' + Math.floor(Math.random() * 10000000000),
+          startAt: this.selectedConcept.date,
+          endAt: this.selectedConcept.date,
+          concept: { ...this.selectedConcept.concept, positions: [position] },
+          user: 'xavi',
+        };
+        this.reservations.push(reservation);
+      }
     }
-    console.log(this.selectedConcept, position);
+  }
+  onDeselectConcept(selectedConcept: SelectedConcept): void {
+    // TODO save the info
+    this.reservations = [
+      ...this.reservations.filter((item) => {
+        return !(
+          item.concept._id === selectedConcept.concept._id &&
+          item.startAt.toDateString() === selectedConcept.date.toDateString()
+        );
+      }),
+    ];
   }
 }

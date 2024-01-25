@@ -21,13 +21,12 @@
           class="mat-mdc-chip-set-stacked"
         >
           @for (concept of concepts; track concept._id) {
-          <mat-chip-option
-            [selected]="false"
-            [value]="concept"
-            (selectionChange)="onSelectionChange($event, date)"
-          >
-            <span>Select {{ concept.name | lowercase }}</span>
-          </mat-chip-option>
+          <button mat-stroked-button (click)="onSelectionChange(date, concept)">
+            @if(isReserved(date, concept)) {
+            <mat-icon color="primary">check</mat-icon>
+            }
+            {{ renderConcept(date, concept) }}
+          </button>
           }
         </div>
       </div>

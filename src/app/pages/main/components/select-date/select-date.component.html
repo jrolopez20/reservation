@@ -2,11 +2,14 @@
   <mat-tab-group [selectedIndex]="activeTab">
     <mat-tab>
       <div class="tab-container">
+        <h3>Lorem ipsum</h3>
         @for (date of dateRange; track date) {
         <app-date-item
           [date]="date"
           [concepts]="concepts"
+          [reservations]="reservations"
           (selectedConcept)="onSelectedConcept($event)"
+          (deselectConcept)="onDeselectConcept($event)"
         ></app-date-item>
         }
       </div>

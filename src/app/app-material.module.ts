@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -33,6 +34,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTooltipModule,
     MatChipsModule,
     MatTabsModule,
+    MatDialogModule
   ],
 })
 export class AppMaterialModule {}
