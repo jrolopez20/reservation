@@ -1,11 +1,13 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>Concepts</mat-card-title>
-    <mat-card-subtitle>Select the concepts you want to schedule</mat-card-subtitle>
+    <mat-card-subtitle
+      >Select the concepts you want to schedule</mat-card-subtitle
+    >
   </mat-card-header>
   <mat-card-content>
     <mat-selection-list #conceptsSelector>
-      @for (concept of concepts; track concept._id) {
+      @for (concept of concepts$ | async; track concept._id) {
       <mat-list-option [value]="concept._id">{{
         concept.name
       }}</mat-list-option>
@@ -20,7 +22,10 @@
       color="primary"
       matTooltip="Schedule the selected concepts"
     >
-     Schedule
+      Schedule
     </button>
   </mat-card-actions>
+  <mat-card-footer *ngIf="isLoading$ | async">
+    <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>

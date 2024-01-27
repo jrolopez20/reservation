@@ -5,6 +5,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { appEffects, appStore } from './store/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,14 +15,16 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(),
     provideTransloco({
-      config: {
-        availableLangs: ['en', 'es'],
-        defaultLang: 'en',
-        // Remove this option if your application doesn't support changing language in runtime.
-        reRenderOnLangChange: true,
-        prodMode: !isDevMode(),
-      },
-      loader: TranslocoHttpLoader,
+        config: {
+            availableLangs: ['en', 'es'],
+            defaultLang: 'en',
+            // Remove this option if your application doesn't support changing language in runtime.
+            reRenderOnLangChange: true,
+            prodMode: !isDevMode(),
+        },
+        loader: TranslocoHttpLoader,
     }),
-  ],
+    provideStore(appStore),
+    provideEffects(appEffects),
+],
 };

@@ -4,7 +4,12 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatSelectionList } from '@angular/material/list';
-import { CONCEPTS } from '../../../../features/models';
+import { Observable } from 'rxjs';
+import { Concept } from '../../../../store/concept/concept.model';
+import { AppState } from '../../../../store/store';
+import * as ConceptActions from '../../../../store/concept/actions';
+import { conceptSelector } from '../../../../store/concept/selectors';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-select-concept',
@@ -22,9 +27,18 @@ import { CONCEPTS } from '../../../../features/models';
 export class SelectConceptComponent {
   @ViewChild('conceptsSelector')
   conceptsSelector!: MatSelectionList;
-  concepts = [...CONCEPTS];
+  concepts$: Observable<Concept[]>;
+  isLoading$: Observable<boolean>;
 
-  constructor(private router: Router) {}
+  constructor(private store: Store<AppState>, private router: Router) {
+    this.concepts$ = this.store.select(conceptSelector);
+    this.isLoading$ = this.store.select((state) => state.concept.loading);
+    this.loadConcepts();
+  }
+
+  private loadConcepts(): void {
+    this.store.dispatch(ConceptActions.loadConcepts());
+  }
 
   onSchedule(): void {
     if (!this.conceptsSelector.selectedOptions.isEmpty()) {

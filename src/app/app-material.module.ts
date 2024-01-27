@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [],
@@ -34,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTooltipModule,
     MatChipsModule,
     MatTabsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule
   ],
 })
 export class AppMaterialModule {}
