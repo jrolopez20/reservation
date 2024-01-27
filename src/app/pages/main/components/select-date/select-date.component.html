@@ -2,12 +2,30 @@
   <mat-tab-group [selectedIndex]="activeTab">
     <mat-tab>
       <div class="tab-container">
-        <h3>Lorem ipsum</h3>
+        <mat-card-header>
+          <mat-card-title>Select the dates</mat-card-title>
+          <!-- <mat-card-subtitle
+            >Select a work station for the date
+            {{ date | date : "mediumDate" }}</mat-card-subtitle
+          > -->
+          <div class="card-header-actions">
+            <button
+              mat-icon-button
+              aria-label="Go back"
+              color="accent"
+              matTooltip="Go back"
+              (click)="goHome()"
+            >
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+          </div>
+        </mat-card-header>
+
+        <!-- <br> -->
         @for (date of dateRange; track date) {
         <app-date-item
           [date]="date"
           [concepts]="concepts"
-          [reservations]="reservations"
           (selectedConcept)="onSelectedConcept($event)"
           (deselectConcept)="onDeselectConcept($event)"
         ></app-date-item>

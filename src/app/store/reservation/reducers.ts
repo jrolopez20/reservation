@@ -1,3 +1,4 @@
+import { Concept } from './../concept/concept.model';
 import { createReducer, on } from '@ngrx/store';
 import { Reservation } from './reservation.model';
 import * as ReservationActions from './actions';
@@ -40,8 +41,13 @@ export const reservationReducer = createReducer(
     reservations: [...state.reservations, reservation],
   })),
 
-  on(ReservationActions.deleteReservation, (state, { id }) => ({
+  on(ReservationActions.deleteReservation, (state, { date, concept }) => ({
     ...state,
-    reservations: state.reservations.filter((t) => t._id !== id),
+    reservations: state.reservations.filter((item) => {
+      return !(
+        item.concept._id === concept._id &&
+        item.startAt.toDateString() === date.toDateString()
+      );
+    }),
   }))
 );

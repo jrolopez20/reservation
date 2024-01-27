@@ -2,16 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  ConceptInterface,
-  ReservationInterface,
-} from '../../../../features/models';
 import { ConfirmComponent } from '../../../../shared/components/confirm/confirm.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Reservation } from '../../../../store/reservation/reservation.model';
+import { Observable, map } from 'rxjs';
+import { reservationSelector } from '../../../../store/reservation/selectors';
+import { AppState } from '../../../../store/store';
+import { Store } from '@ngrx/store';
+import { Concept, Position } from '../../../../store/concept/concept.model';
 
 export type SelectedConcept = {
   date: Date;
-  concept: ConceptInterface;
+  concept: Concept;
 };
 
 @Component({
@@ -23,43 +25,53 @@ export type SelectedConcept = {
 })
 export class DateItemComponent {
   @Input() date = new Date();
-  @Input() concepts: ConceptInterface[] = [];
-  @Input() reservations: ReservationInterface[] = [];
+  @Input() concepts: Concept[] = [];
   @Output() selectedConcept = new EventEmitter<SelectedConcept>();
   @Output() deselectConcept = new EventEmitter<SelectedConcept>();
+  reservations$: Observable<Reservation[]>;
 
-  constructor(public dialog: MatDialog) {}
-
-  onSelectionChange(date: Date, concept: ConceptInterface) {
-    if (this.isReserved(date, concept)) {
-      const dialogRef = this.dialog.open(ConfirmComponent);
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.deselectConcept.emit({ date, concept });
-        }
-      });
-    } else {
-      this.selectedConcept.emit({ date, concept });
-    }
+  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+    this.reservations$ = this.store.select(reservationSelector);
   }
 
-  renderConcept(date: Date, concept: ConceptInterface): string {
-    const reservation = this.isReserved(date, concept);
-    let text = `Select ${concept.name.toLowerCase()}`;
-    if (reservation) {
-      text = reservation.concept.positions[0].name;
-    }
-    return text;
+  unselectConcept(date: Date, concept: Concept) {
+    const dialogRef = this.dialog.open(ConfirmComponent);
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.deselectConcept.emit({ date, concept });
+      }
+    });
   }
 
-  isReserved(
+  selectConcept(date: Date, concept: Concept): void {
+    this.selectedConcept.emit({ date, concept });
+  }
+
+  isReserved(date: Date, concept: Concept): Observable<boolean> {
+    return this.reservations$.pipe(
+      map((array) => {
+        return !!array.find(
+          (reservation) =>
+            reservation.concept._id === concept._id &&
+            reservation.startAt.toDateString() === date.toDateString()
+        );
+      })
+    );
+  }
+
+  getPositionReserved(
     date: Date,
-    concept: ConceptInterface
-  ): ReservationInterface | undefined {
-    return this.reservations.find(
-      (reservation) =>
-        reservation.concept._id === concept._id &&
-        reservation.startAt.toDateString() === date.toDateString()
+    concept: Concept
+  ): Observable<Position | undefined> {
+    return this.reservations$.pipe(
+      map((array) => {
+        const reservation = array.find(
+          (reservation) =>
+            reservation.concept._id === concept._id &&
+            reservation.startAt.toDateString() === date.toDateString()
+        );
+        return reservation ? reservation?.concept?.positions[0] : undefined;
+      })
     );
   }
 }

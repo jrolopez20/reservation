@@ -31,6 +31,6 @@ export class ConceptService {
         ],
         enabled: true,
       },
-    ]).pipe(delay(2000));
+    ]).pipe(delay(1000));
   }
 }

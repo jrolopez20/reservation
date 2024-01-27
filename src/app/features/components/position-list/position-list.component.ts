@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ConceptInterface, PositionInterface } from '../../models';
+import { Concept, Position } from '../../../store/concept/concept.model';
 
 @Component({
   selector: 'app-position-list',
@@ -9,10 +9,10 @@ import { ConceptInterface, PositionInterface } from '../../models';
 })
 export class PositionListComponent {
   @Input({ required: true }) date!: Date;
-  @Input({ required: true }) concept!: ConceptInterface;
-  @Output() positionSelected = new EventEmitter<PositionInterface | null>();
+  @Input({ required: true }) concept!: Concept;
+  @Output() positionSelected = new EventEmitter<Position | null>();
 
-  onPositionSelected(position: PositionInterface) {
+  onPositionSelected(position: Position) {
     this.positionSelected.emit(position);
   }
 

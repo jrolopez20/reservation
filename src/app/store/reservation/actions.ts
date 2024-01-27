@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Reservation } from './reservation.model';
+import { Concept } from '../concept/concept.model';
 
 export const loadReservations = createAction(
   '[Reservation] Load Reservations',
@@ -23,5 +24,5 @@ export const addReservation = createAction(
 
 export const deleteReservation = createAction(
   '[Reservation] Delete Reservation',
-  props<{ id: string }>()
+  props<{ date: Date, concept: Concept }>()
 );
