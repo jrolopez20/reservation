@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Concept } from './concept.model';
 import * as ConceptActions from './actions';
-export const conceptFeatureKey = 'concept';
 
 export interface ConceptState {
   concepts: Concept[];

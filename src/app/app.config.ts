@@ -8,6 +8,7 @@ import { provideTransloco } from '@ngneat/transloco';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { appEffects, appStore } from './store/store';
+import { authInterceptorProviders } from './core/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,16 +16,19 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(),
     provideTransloco({
-        config: {
-            availableLangs: ['en', 'es'],
-            defaultLang: 'en',
-            // Remove this option if your application doesn't support changing language in runtime.
-            reRenderOnLangChange: true,
-            prodMode: !isDevMode(),
-        },
-        loader: TranslocoHttpLoader,
+      config: {
+        availableLangs: ['en', 'es'],
+        defaultLang: 'en',
+        // Remove this option if your application doesn't support changing language in runtime.
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader,
     }),
     provideStore(appStore),
     provideEffects(appEffects),
-],
+
+    // Interceptors
+    ...authInterceptorProviders,
+  ],
 };
