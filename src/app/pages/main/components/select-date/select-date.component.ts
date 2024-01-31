@@ -6,15 +6,7 @@ import {
 import { Router } from '@angular/router';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { FeaturesModule } from '../../../../features/features.module';
-import {
-  CreateReservationDto,
-  Reservation,
-} from '../../../../store/reservation/reservation.model';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../store/store';
-import { reservationsSelector } from '../../../../store/reservation/selectors';
-import * as ReservationActions from '../../../../store/reservation/actions';
+import { CreateReservationDto } from '../../../../store/reservation/reservation.model';
 import { CommonModule } from '@angular/common';
 import { Concept, Slot } from '../../../../store/concept/concept.model';
 import { ReservationFacade } from '../../../../store/reservation/reservation.facade';
@@ -28,18 +20,15 @@ import moment from 'moment';
   styleUrl: './select-date.component.scss',
 })
 export class SelectDateComponent {
-  dateRange: Date[] = [];
-  concepts: Concept[] = [];
-  reservations$: Observable<Reservation[]>;
+  readonly dateRange!: Date[];
+  readonly concepts!: Concept[];
   activeTab: number = 0;
   selectedConcept: SelectedConcept | null = null;
 
   constructor(
     private router: Router,
-    private store: Store<AppState>,
     private reservationFacade: ReservationFacade
   ) {
-    this.reservations$ = this.store.select(reservationsSelector);
     const state = this.router.getCurrentNavigation()?.extras?.state;
     if (state && state['selectedConcepts']) {
       this.concepts = state['selectedConcepts'];
@@ -54,7 +43,7 @@ export class SelectDateComponent {
   }
 
   private loadReservations(conceptsCode: string[]): void {
-    const concept = conceptsCode[0]; // TODOuse concat to verify each concept
+    const concept = conceptsCode[0]; // TODO Use concat to verify each concept
     this.reservationFacade.getAll(concept, new Date());
   }
 

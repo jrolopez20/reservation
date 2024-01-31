@@ -5,11 +5,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ConfirmComponent } from '../../../../shared/components/confirm/confirm.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Reservation } from '../../../../store/reservation/reservation.model';
-import { Observable, map } from 'rxjs';
-import { reservationsSelector } from '../../../../store/reservation/selectors';
-import { AppState } from '../../../../store/store';
-import { Store } from '@ngrx/store';
-import { Concept, Slot } from '../../../../store/concept/concept.model';
+import { Observable, map, combineLatestWith, combineLatest } from 'rxjs';
+import { Concept } from '../../../../store/concept/concept.model';
+import moment from 'moment';
+import { ReservationFacade } from '../../../../store/reservation/reservation.facade';
+import { AuthFacade } from '../../../../store/auth/auth.facade';
 
 export type SelectedConcept = {
   date: Date;
@@ -30,8 +30,12 @@ export class DateItemComponent {
   @Output() removeReservation = new EventEmitter<string>();
   reservations$: Observable<Reservation[]>;
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>) {
-    this.reservations$ = this.store.select(reservationsSelector);
+  constructor(
+    public dialog: MatDialog,
+    private reservationFacade: ReservationFacade,
+    private authFacade: AuthFacade
+  ) {
+    this.reservations$ = this.reservationFacade.reservations$;
   }
 
   onRemoveReservation(id: string) {
@@ -47,31 +51,26 @@ export class DateItemComponent {
     this.selectedConcept.emit({ date, concept });
   }
 
-  isReserved(date: Date, concept: Concept): Observable<Reservation | undefined> {
-    return this.reservations$.pipe(
-      map((array) => {
-        return array.find(
-          (reservation) =>
-            reservation.concept === concept.code &&
-            new Date(reservation.date).toDateString() === date.toDateString()
-        );
-      })
-    );
-  }
-
-  getSlotReserved(
+  isReserved(
     date: Date,
     concept: Concept
-  ): Observable<string | undefined> {
-    return this.reservations$.pipe(
-      map((array) => {
-        const reservation = array.find(
+  ): Observable<Reservation | undefined> {
+    // Combine the source$ and filter$ observables
+    const combined$ = combineLatest([
+      this.reservations$,
+      this.authFacade.user$,
+    ]);
+
+    // Map the combined$ observable to a filtered array observable
+    return combined$.pipe(
+      map(([reservations, user]) =>
+        reservations.find(
           (reservation) =>
+            reservation.account === user?.account &&
             reservation.concept === concept.code &&
-            new Date(reservation.date).toDateString() === date.toDateString()
-        );
-        return reservation?.slot;
-      })
+            reservation.date.toString() === moment(date).format('YYYY-MM-DD')
+        )
+      )
     );
   }
 }
