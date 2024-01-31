@@ -3,6 +3,7 @@ import { Observable, delay, of } from 'rxjs';
 import { CreateReservationDto, Reservation } from './reservation.model';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../core/services';
+import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService {
@@ -17,7 +18,7 @@ export class ReservationService {
       `${this.hostUrl}/concepts/${concept}/reserves`,
       {
         params: {
-          startDate: startDate.toDateString(),
+          startDate: moment(startDate).format('YYYY-MM-DD')
         },
       }
     );
