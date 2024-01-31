@@ -13,7 +13,7 @@ import { AppState } from '../../../../store/store';
 import { reservationSelector } from '../../../../store/reservation/selectors';
 import * as ReservationActions from '../../../../store/reservation/actions';
 import { CommonModule } from '@angular/common';
-import { Concept, Position } from '../../../../store/concept/concept.model';
+import { Concept, Slot } from '../../../../store/concept/concept.model';
 
 @Component({
   selector: 'app-select-date',
@@ -39,7 +39,7 @@ export class SelectDateComponent {
       end.setDate(end.getDate() + 15);
       this.dateRange = this.createDateRange(start, end);
     } else {
-      this.goHome()
+      this.goHome();
     }
   }
 
@@ -63,14 +63,14 @@ export class SelectDateComponent {
     this.activeTab = 1;
   }
 
-  onPositionSelected(position: Position | null) {
+  onSlotSelected(slot: Slot | null) {
     this.activeTab = 0;
-    if (position && this.selectedConcept) {
+    if (slot && this.selectedConcept) {
       const reservation: Reservation = {
-        _id: 'x' + Math.floor(Math.random() * 10000000000),
+        id: 'x' + Math.floor(Math.random() * 10000000000),
         startAt: this.selectedConcept.date,
         endAt: this.selectedConcept.date,
-        concept: { ...this.selectedConcept.concept, positions: [position] },
+        concept: { ...this.selectedConcept.concept, slots: [slot] },
         user: 'xavi',
       };
 

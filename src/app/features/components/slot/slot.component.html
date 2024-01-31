@@ -1,0 +1,11 @@
+<div
+  class="slot-card"
+  fxLayoutAlign="center"
+  fxFlex
+  (click)="onClick()"
+  [attr.disabled]="!slot.enabled ? true : null"
+>
+  <span>
+    {{ slot.code }}
+  </span>
+</div>

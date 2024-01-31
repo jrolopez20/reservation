@@ -45,7 +45,7 @@ export const reservationReducer = createReducer(
     ...state,
     reservations: state.reservations.filter((item) => {
       return !(
-        item.concept._id === concept._id &&
+        item.concept.id === concept.id &&
         item.startAt.toDateString() === date.toDateString()
       );
     }),

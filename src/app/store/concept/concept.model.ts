@@ -1,11 +1,14 @@
-export interface Position {
-  name: string;
+export interface Slot {
+  code: string;
+  position: number;
   enabled?: boolean;
 }
 
 export interface Concept {
-  _id: string;
-  name: string;
-  positions: Position[];
+  id?: string;
+  code: string;
+  slots: Slot[];
   enabled?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }

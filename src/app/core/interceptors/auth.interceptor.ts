@@ -16,19 +16,17 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authFacade: AuthFacade,
     private tokenStorageService: TokenStorageService
-  ) {}
+  ) {
+  }
 
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const accessToken = this.tokenStorageService.getAccessToken();
-
     if (accessToken) {
       req = req.clone({
         setHeaders: { Authorization: `Bearer ${accessToken}` },
-        // !Attention: it used only at Fake API, remove it in real app
-        params: req.params.set('auth-token', accessToken),
       });
     }
 

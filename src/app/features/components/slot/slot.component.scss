@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
 
-.position-card {
+.slot-card {
   border-radius: 5px;
   border-top: 3px solid #00b096;
   padding: 15px 10px;
@@ -18,7 +18,7 @@
   }
 }
 
-.position-card[disabled] {
+.slot-card[disabled] {
   cursor: default;
   border-top: 3px solid #45bfa8;
   background-color: #efefef;

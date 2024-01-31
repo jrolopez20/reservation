@@ -1,4 +1,8 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -8,7 +12,8 @@ import { provideTransloco } from '@ngneat/transloco';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { appEffects, appStore } from './store/store';
-import { authInterceptorProviders } from './core/interceptors';
+import { HttpClientModule } from '@angular/common/http';
+import { httpInterceptorProviders } from './core/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(appEffects),
 
     // Interceptors
-    ...authInterceptorProviders,
+    importProvidersFrom(HttpClientModule),
+    ...httpInterceptorProviders,
   ],
 };

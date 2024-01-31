@@ -14,8 +14,8 @@ export class AuthFacade {
 
   constructor(private store: Store<AppState>) {}
 
-  login(email: string, password: string) {
-    this.store.dispatch(AuthActions.loginRequest({ email, password }));
+  login(account: string, password: string) {
+    this.store.dispatch(AuthActions.loginRequest({ account, password }));
   }
 
   logout() {

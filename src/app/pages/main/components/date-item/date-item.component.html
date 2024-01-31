@@ -20,18 +20,18 @@
           fxLayoutGap="5px"
           class="mat-mdc-chip-set-stacked"
         >
-          @for (concept of concepts; track concept._id) {
+          @for (concept of concepts; track concept.id) {
             @if(isReserved(date, concept) | async) {
               <button mat-stroked-button (click)="unselectConcept(date, concept)">
                 <mat-icon color="primary">check</mat-icon>
                 <span>
-                  {{(getPositionReserved(date, concept) | async)?.name}}
+                  {{(getSlotReserved(date, concept) | async)?.code}}
                 </span>
               </button>
             }
             @else {
               <button mat-stroked-button (click)="selectConcept(date, concept)">
-                Select {{concept.name.toLowerCase()}}
+                Select {{concept.code.toLowerCase()}}
               </button>
             }
           }

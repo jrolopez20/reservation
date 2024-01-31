@@ -6,17 +6,17 @@ import { Reservation } from './reservation.model';
 export class ReservationService {
   getAll(userId: string): Observable<Reservation[]> {
     return of([
-      {
-        _id: 'ji349m93c2423',
-        startAt: new Date(),
-        endAt: new Date(),
-        concept: {
-          _id: 'a4dg6x1',
-          name: 'Work station',
-          positions: [{ name: '1', enabled: false }],
-        },
-        user: 'javi',
-      },
+      // {
+      //   id: 'ji349m93c2423',
+      //   startAt: new Date(),
+      //   endAt: new Date(),
+      //   concept: {
+      //     id: 'a4dg6x1',
+      //     code: 'Work station',
+      //     slots: [{ code: '1', podition: 1, enabled: false }],
+      //   },
+      //   user: 'javi',
+      // },
     ]).pipe(delay(2000));
   }
 }

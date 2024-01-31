@@ -20,7 +20,7 @@ import { AuthFacade } from '../../../../store/auth/auth.facade';
 })
 export class LoginComponent {
   readonly loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    account: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
   isLoading$ = this.authFacade.isLoadingLogin$;
@@ -29,9 +29,9 @@ export class LoginComponent {
   constructor(private authFacade: AuthFacade) {}
 
   onSubmit() {
-    const { email, password } = this.loginForm.value;
-    if (email && password) {
-      this.authFacade.login(email, password);
+    const { account, password } = this.loginForm.value;
+    if (account && password) {
+      this.authFacade.login(account, password);
     }
   }
 }

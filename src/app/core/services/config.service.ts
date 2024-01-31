@@ -17,6 +17,6 @@ export class ConfigService {
    * Returns the server's host url
    */
   getAPIUrl(): string {
-    return environment?.apiUrl ?? '';
+    return environment?.apiUrl;
   }
 }

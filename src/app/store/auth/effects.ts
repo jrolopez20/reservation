@@ -10,7 +10,6 @@ import { TokenStorageService } from '../../core/services';
 
 @Injectable()
 export class AuthEffects {
-
   constructor(
     private router: Router,
     private actions$: Actions,
@@ -23,10 +22,10 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(AuthActions.loginRequest),
       exhaustMap((credentials) =>
-        this.authService.login(credentials.email, credentials.password).pipe(
+        this.authService.login(credentials.account, credentials.password).pipe(
           map((data) => {
-            // save tokens
-            this.tokenStorageService.saveAccessToken(data.access_token);
+            // save token
+            this.tokenStorageService.saveAccessToken(data.token);
             // trigger login success action
             return AuthActions.loginSuccess();
           }),

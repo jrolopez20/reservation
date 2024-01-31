@@ -7,26 +7,41 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { selectIsLoggedIn } from '../../store/auth/selectors';
 import { AppState } from '../../store/store';
+import { TokenStorageService } from '../services';
+import { AuthFacade } from '../../store/auth/auth.facade';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuardService implements CanActivate {
-  constructor(private router: Router, private store: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private tokenStorageService: TokenStorageService,
+    private authFacade: AuthFacade
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
+    const accessToken = this.tokenStorageService.getAccessToken();
     return this.store.select(selectIsLoggedIn).pipe(
       take(1),
-      tap((isLoggedIn) => {
+      map((isLoggedIn) => {
         if (!isLoggedIn) {
-          this.router.navigate(['/login'], {
-            queryParams: { returnUrl: state.url },
-          });
+          if (accessToken) {
+            console.log(accessToken);
+            this.authFacade.getAuthUser();
+          } else {
+            this.router.navigate(['/login'], {
+              queryParams: { returnUrl: state.url },
+            });
+            return false;
+          }
         }
+        return true;
       })
     );
   }

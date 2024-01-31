@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
-
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/store';
+import * as ConceptActions from '../../../../store/concept/actions';
+import * as ReservationActions from '../../../../store/reservation/actions';
+import { AuthFacade } from '../../../../store/auth/auth.facade';
 @Component({
   selector: 'app-main',
   standalone: true,
@@ -11,7 +15,24 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './main.component.scss',
 })
 export class MainComponent {
-  constructor(private router: Router) {}
+  user$ = this.authFacade.user$;
+  
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private authFacade: AuthFacade
+  ) {
+    this.loadConcepts();
+    this.loadReservations();
+  }
+
+  private loadConcepts(): void {
+    this.store.dispatch(ConceptActions.loadConcepts());
+  }
+
+  private loadReservations(): void {
+    this.store.dispatch(ReservationActions.loadReservations({ userId: 'xXx' }));
+  }
 
   public logout(): void {
     this.router.navigate(['/login']);

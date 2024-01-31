@@ -35,11 +35,11 @@
     <mat-tab>
       <div class="tab-container">
         @if (selectedConcept) {
-        <app-position-list
+        <app-slot-list
           [date]="selectedConcept.date"
           [concept]="selectedConcept.concept"
-          (positionSelected)="onPositionSelected($event)"
-        ></app-position-list>
+          (slotSelected)="onSlotSelected($event)"
+        ></app-slot-list>
         }
       </div>
     </mat-tab>

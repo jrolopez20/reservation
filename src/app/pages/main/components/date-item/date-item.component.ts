@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
 import { reservationSelector } from '../../../../store/reservation/selectors';
 import { AppState } from '../../../../store/store';
 import { Store } from '@ngrx/store';
-import { Concept, Position } from '../../../../store/concept/concept.model';
+import { Concept, Slot } from '../../../../store/concept/concept.model';
 
 export type SelectedConcept = {
   date: Date;
@@ -52,25 +52,25 @@ export class DateItemComponent {
       map((array) => {
         return !!array.find(
           (reservation) =>
-            reservation.concept._id === concept._id &&
+            reservation.concept.id === concept.id &&
             reservation.startAt.toDateString() === date.toDateString()
         );
       })
     );
   }
 
-  getPositionReserved(
+  getSlotReserved(
     date: Date,
     concept: Concept
-  ): Observable<Position | undefined> {
+  ): Observable<Slot | undefined> {
     return this.reservations$.pipe(
       map((array) => {
         const reservation = array.find(
           (reservation) =>
-            reservation.concept._id === concept._id &&
+            reservation.concept.id === concept.id &&
             reservation.startAt.toDateString() === date.toDateString()
         );
-        return reservation ? reservation?.concept?.positions[0] : undefined;
+        return reservation ? reservation?.concept?.slots[0] : undefined;
       })
     );
   }

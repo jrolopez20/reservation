@@ -5,7 +5,7 @@ import { AuthUser } from './auth.models';
 // Login
 export const loginRequest = createAction(
   '[Auth] Login Request',
-  props<{ email: string; password: string }>()
+  props<{ account: string; password: string }>()
 );
 export const loginSuccess = createAction('[Auth] Login Success');
 export const loginFailure = createAction(

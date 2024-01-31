@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PositionListComponent } from './components/position-list/position-list.component';
+import { SlotListComponent } from './components/slot-list/slot-list.component';
 import { AppMaterialModule } from '../app-material.module';
-import { PositionComponent } from './components/position/position.component';
+import { SlotComponent } from './components/slot/slot.component';
 
 @NgModule({
-  declarations: [PositionListComponent, PositionComponent],
+  declarations: [SlotListComponent, SlotComponent],
   imports: [CommonModule, AppMaterialModule],
-  exports: [PositionListComponent, PositionComponent],
+  exports: [SlotListComponent, SlotComponent],
 })
 export class FeaturesModule {}

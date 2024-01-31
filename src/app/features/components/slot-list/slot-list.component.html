@@ -12,12 +12,12 @@
     </div>
   </mat-card-header>
   <mat-card-content fxLayout="row wrap">
-    @for (position of concept.positions; track position.name) {
+    @for (slot of concept.slots; track slot.code) {
     <div class="item" fxFlex="20" fxFlex.xs="25">
-      <app-position
-        [position]="position"
-        (positionSelected)="onPositionSelected($event)"
-      ></app-position>
+      <app-slot
+        [slot]="slot"
+        (slotSelected)="onSlotSelected($event)"
+      ></app-slot>
     </div>
     }
   </mat-card-content>

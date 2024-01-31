@@ -61,6 +61,8 @@ export const authReducer = createReducer(
     AuthActions.getAuthUserSuccess,
     (state, action): AuthState => ({
       ...state,
+      isLoggedIn: true,
+      error: false,
       user: action.user,
     })
   ),

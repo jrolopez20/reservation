@@ -7,9 +7,9 @@
   </mat-card-header>
   <mat-card-content>
     <mat-selection-list #conceptsSelector>
-      @for (concept of concepts$ | async; track concept._id) {
+      @for (concept of concepts$ | async; track concept.id) {
       <mat-list-option [value]="concept">{{
-        concept.name
+        concept.code
       }}</mat-list-option>
       }
     </mat-selection-list>
