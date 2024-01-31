@@ -29,4 +29,8 @@ export class ReservationService {
       reservation
     );
   }
+
+  remove(id: string): Observable<Reservation> {
+    return this.http.delete<Reservation>(`${this.hostUrl}/me/reserves/${id}`);
+  }
 }

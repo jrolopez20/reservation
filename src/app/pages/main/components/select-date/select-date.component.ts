@@ -91,13 +91,8 @@ export class SelectDateComponent {
     }
   }
 
-  onDeselectConcept(selectedConcept: SelectedConcept): void {
-    this.store.dispatch(
-      ReservationActions.deleteReservation({
-        date: selectedConcept.date,
-        concept: selectedConcept.concept.code,
-      })
-    );
+  onRemoveReservation(id: string): void {
+    this.reservationFacade.remove(id);
   }
 
   goHome() {

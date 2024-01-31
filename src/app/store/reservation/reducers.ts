@@ -54,13 +54,22 @@ export const reservationReducer = createReducer(
     loading: false,
   })),
 
-  on(ReservationActions.deleteReservation, (state, { date, concept }) => ({
+  on(ReservationActions.deleteReservation, (state) => ({
+    ...state,
+    loading: true,
+  })),
+
+  on(ReservationActions.deleteReservationSuccess, (state, { id }) => ({
     ...state,
     reservations: state.reservations.filter((item) => {
-      return !(
-        item.concept === concept &&
-        item.date.toDateString() === date.toDateString()
-      );
+      return !(item.id === id);
     }),
+    loading: false,
+  })),
+
+  on(ReservationActions.deleteReservationFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   }))
 );

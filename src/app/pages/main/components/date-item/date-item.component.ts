@@ -27,18 +27,18 @@ export class DateItemComponent {
   @Input() date = new Date();
   @Input() concepts: Concept[] = [];
   @Output() selectedConcept = new EventEmitter<SelectedConcept>();
-  @Output() deselectConcept = new EventEmitter<SelectedConcept>();
+  @Output() removeReservation = new EventEmitter<string>();
   reservations$: Observable<Reservation[]>;
 
   constructor(public dialog: MatDialog, private store: Store<AppState>) {
     this.reservations$ = this.store.select(reservationsSelector);
   }
 
-  unselectConcept(date: Date, concept: Concept) {
+  onRemoveReservation(id: string) {
     const dialogRef = this.dialog.open(ConfirmComponent);
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.deselectConcept.emit({ date, concept });
+        this.removeReservation.emit(id);
       }
     });
   }
@@ -47,10 +47,10 @@ export class DateItemComponent {
     this.selectedConcept.emit({ date, concept });
   }
 
-  isReserved(date: Date, concept: Concept): Observable<boolean> {
+  isReserved(date: Date, concept: Concept): Observable<Reservation | undefined> {
     return this.reservations$.pipe(
       map((array) => {
-        return !!array.find(
+        return array.find(
           (reservation) =>
             reservation.concept === concept.code &&
             new Date(reservation.date).toDateString() === date.toDateString()

@@ -21,7 +21,6 @@ export class ReservationEffects {
             ReservationActions.loadReservationsSuccess({ reservations })
           ),
           catchError((error) => {
-            console.log(error);
             return of(
               ReservationActions.loadReservationsFailure({
                 error: error.message,
@@ -42,9 +41,28 @@ export class ReservationEffects {
             ReservationActions.addReservationSuccess({ reservation })
           ),
           catchError((error) => {
-            console.log(error);
             return of(
               ReservationActions.addReservationFailure({
+                error: error.message,
+              })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  deleteReservations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReservationActions.deleteReservation),
+      mergeMap((action: any) =>
+        this.reservationService.remove(action.id).pipe(
+          map(() =>
+            ReservationActions.deleteReservationSuccess({ id: action.id })
+          ),
+          catchError((error) => {
+            return of(
+              ReservationActions.deleteReservationFailure({
                 error: error.message,
               })
             );

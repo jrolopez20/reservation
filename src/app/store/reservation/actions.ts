@@ -36,5 +36,15 @@ export const addReservationFailure = createAction(
 // DELETE Reservation
 export const deleteReservation = createAction(
   '[Reservation] Delete Reservation',
-  props<{ date: Date, concept: string }>()
+  props<{ id: string }>()
+);
+
+export const deleteReservationSuccess = createAction(
+  '[Reservation] Delete Reservation Success',
+  props<{ id: string }>()
+);
+
+export const deleteReservationFailure = createAction(
+  '[Reservation] Delete Reservation Failure',
+  props<{ error: string }>()
 );

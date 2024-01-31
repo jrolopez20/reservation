@@ -22,4 +22,8 @@ export class ReservationFacade {
   add(reservation: CreateReservationDto) {
     this.store.dispatch(ReservationActions.addReservation({ reservation }));
   }
+
+  remove(id: string) {
+    this.store.dispatch(ReservationActions.deleteReservation({ id }));
+  }
 }

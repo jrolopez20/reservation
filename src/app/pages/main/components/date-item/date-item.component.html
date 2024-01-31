@@ -21,8 +21,8 @@
           class="mat-mdc-chip-set-stacked"
         >
           @for (concept of concepts; track concept.id) {
-            @if(isReserved(date, concept) | async) {
-              <button mat-stroked-button (click)="unselectConcept(date, concept)">
+            @if(isReserved(date, concept) | async; as reservation) {
+              <button mat-stroked-button (click)="onRemoveReservation(reservation.id)">
                 <mat-icon color="primary">check</mat-icon>
                 <span>
                   {{(getSlotReserved(date, concept) | async)}}
