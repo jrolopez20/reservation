@@ -32,7 +32,6 @@ export class AuthGuardService implements CanActivate {
       map((isLoggedIn) => {
         if (!isLoggedIn) {
           if (accessToken) {
-            console.log(accessToken);
             this.authFacade.getAuthUser();
           } else {
             this.router.navigate(['/login'], {

@@ -1,9 +1,14 @@
-import { Concept } from '../concept/concept.model';
-
 export interface Reservation {
   id: string;
-  startAt: Date;
-  endAt: Date;
-  concept: Concept;
-  user: string;
+  account: string;
+  concept: string;
+  slot: string;
+  date: Date;
+  createdAt: Date;
+}
+
+export interface CreateReservationDto {
+  concept: string;
+  slot: string;
+  date: string;
 }

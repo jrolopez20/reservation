@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { Reservation } from './reservation.model';
-import { Concept } from '../concept/concept.model';
+import { CreateReservationDto, Reservation } from './reservation.model';
 
+// GET Reservation
 export const loadReservations = createAction(
   '[Reservation] Load Reservations',
-  props<{ userId: string }>()
+  props<{ concept: string, startDate: Date }>()
 );
 
 export const loadReservationsSuccess = createAction(
@@ -17,12 +17,24 @@ export const loadReservationsFailure = createAction(
   props<{ error: string }>()
 );
 
+// ADD Reservation
 export const addReservation = createAction(
   '[Reservation] Add Reservation',
+  props<{ reservation: CreateReservationDto }>()
+);
+
+export const addReservationSuccess = createAction(
+  '[Reservation] Add Reservation Success',
   props<{ reservation: Reservation }>()
 );
 
+export const addReservationFailure = createAction(
+  '[Reservation] Add Reservation Failure',
+  props<{ error: string }>()
+);
+
+// DELETE Reservation
 export const deleteReservation = createAction(
   '[Reservation] Delete Reservation',
-  props<{ date: Date, concept: Concept }>()
+  props<{ date: Date, concept: string }>()
 );

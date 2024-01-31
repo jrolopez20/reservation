@@ -16,23 +16,20 @@ import { AuthFacade } from '../../../../store/auth/auth.facade';
 })
 export class MainComponent {
   user$ = this.authFacade.user$;
-  
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private authFacade: AuthFacade
   ) {
     this.loadConcepts();
-    this.loadReservations();
   }
 
   private loadConcepts(): void {
     this.store.dispatch(ConceptActions.loadConcepts());
   }
 
-  private loadReservations(): void {
-    this.store.dispatch(ReservationActions.loadReservations({ userId: 'xXx' }));
-  }
+
 
   public logout(): void {
     this.router.navigate(['/login']);

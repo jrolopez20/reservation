@@ -6,7 +6,7 @@ import { ConfirmComponent } from '../../../../shared/components/confirm/confirm.
 import { MatDialog } from '@angular/material/dialog';
 import { Reservation } from '../../../../store/reservation/reservation.model';
 import { Observable, map } from 'rxjs';
-import { reservationSelector } from '../../../../store/reservation/selectors';
+import { reservationsSelector } from '../../../../store/reservation/selectors';
 import { AppState } from '../../../../store/store';
 import { Store } from '@ngrx/store';
 import { Concept, Slot } from '../../../../store/concept/concept.model';
@@ -31,7 +31,7 @@ export class DateItemComponent {
   reservations$: Observable<Reservation[]>;
 
   constructor(public dialog: MatDialog, private store: Store<AppState>) {
-    this.reservations$ = this.store.select(reservationSelector);
+    this.reservations$ = this.store.select(reservationsSelector);
   }
 
   unselectConcept(date: Date, concept: Concept) {
@@ -52,8 +52,8 @@ export class DateItemComponent {
       map((array) => {
         return !!array.find(
           (reservation) =>
-            reservation.concept.id === concept.id &&
-            reservation.startAt.toDateString() === date.toDateString()
+            reservation.concept === concept.code &&
+            new Date(reservation.date).toDateString() === date.toDateString()
         );
       })
     );
@@ -62,15 +62,15 @@ export class DateItemComponent {
   getSlotReserved(
     date: Date,
     concept: Concept
-  ): Observable<Slot | undefined> {
+  ): Observable<string | undefined> {
     return this.reservations$.pipe(
       map((array) => {
         const reservation = array.find(
           (reservation) =>
-            reservation.concept.id === concept.id &&
-            reservation.startAt.toDateString() === date.toDateString()
+            reservation.concept === concept.code &&
+            new Date(reservation.date).toDateString() === date.toDateString()
         );
-        return reservation ? reservation?.concept?.slots[0] : undefined;
+        return reservation?.slot;
       })
     );
   }

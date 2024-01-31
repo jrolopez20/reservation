@@ -25,7 +25,7 @@
               <button mat-stroked-button (click)="unselectConcept(date, concept)">
                 <mat-icon color="primary">check</mat-icon>
                 <span>
-                  {{(getSlotReserved(date, concept) | async)?.code}}
+                  {{(getSlotReserved(date, concept) | async)}}
                 </span>
               </button>
             }

@@ -16,17 +16,39 @@ export class ReservationEffects {
     this.actions$.pipe(
       ofType(ReservationActions.loadReservations),
       mergeMap((action: any) =>
-        this.reservationService.getAll(action.userId).pipe(
+        this.reservationService.getAll(action.concept, action.startDate).pipe(
           map((reservations) =>
             ReservationActions.loadReservationsSuccess({ reservations })
           ),
-          catchError((error) =>
-            of(
+          catchError((error) => {
+            console.log(error);
+            return of(
               ReservationActions.loadReservationsFailure({
                 error: error.message,
               })
-            )
-          )
+            );
+          })
+        )
+      )
+    )
+  );
+
+  addReservations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReservationActions.addReservation),
+      mergeMap((action: any) =>
+        this.reservationService.add(action.reservation).pipe(
+          map((reservation) =>
+            ReservationActions.addReservationSuccess({ reservation })
+          ),
+          catchError((error) => {
+            console.log(error);
+            return of(
+              ReservationActions.addReservationFailure({
+                error: error.message,
+              })
+            );
+          })
         )
       )
     )

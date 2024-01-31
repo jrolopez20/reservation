@@ -6,14 +6,19 @@ import {
 import { Router } from '@angular/router';
 import { AppMaterialModule } from '../../../../app-material.module';
 import { FeaturesModule } from '../../../../features/features.module';
-import { Reservation } from '../../../../store/reservation/reservation.model';
+import {
+  CreateReservationDto,
+  Reservation,
+} from '../../../../store/reservation/reservation.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/store';
-import { reservationSelector } from '../../../../store/reservation/selectors';
+import { reservationsSelector } from '../../../../store/reservation/selectors';
 import * as ReservationActions from '../../../../store/reservation/actions';
 import { CommonModule } from '@angular/common';
 import { Concept, Slot } from '../../../../store/concept/concept.model';
+import { ReservationFacade } from '../../../../store/reservation/reservation.facade';
+import moment from 'moment';
 
 @Component({
   selector: 'app-select-date',
@@ -29,8 +34,12 @@ export class SelectDateComponent {
   activeTab: number = 0;
   selectedConcept: SelectedConcept | null = null;
 
-  constructor(private router: Router, private store: Store<AppState>) {
-    this.reservations$ = this.store.select(reservationSelector);
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private reservationFacade: ReservationFacade
+  ) {
+    this.reservations$ = this.store.select(reservationsSelector);
     const state = this.router.getCurrentNavigation()?.extras?.state;
     if (state && state['selectedConcepts']) {
       this.concepts = state['selectedConcepts'];
@@ -38,9 +47,15 @@ export class SelectDateComponent {
       const end = new Date();
       end.setDate(end.getDate() + 15);
       this.dateRange = this.createDateRange(start, end);
+      this.loadReservations(this.concepts.map((item) => item.code));
     } else {
       this.goHome();
     }
+  }
+
+  private loadReservations(conceptsCode: string[]): void {
+    const concept = conceptsCode[0]; // TODOuse concat to verify each concept
+    this.reservationFacade.getAll(concept, new Date());
   }
 
   private createDateRange(start: Date, end: Date) {
@@ -66,15 +81,13 @@ export class SelectDateComponent {
   onSlotSelected(slot: Slot | null) {
     this.activeTab = 0;
     if (slot && this.selectedConcept) {
-      const reservation: Reservation = {
-        id: 'x' + Math.floor(Math.random() * 10000000000),
-        startAt: this.selectedConcept.date,
-        endAt: this.selectedConcept.date,
-        concept: { ...this.selectedConcept.concept, slots: [slot] },
-        user: 'xavi',
+      const reservation: CreateReservationDto = {
+        date: moment(this.selectedConcept.date).format('YYYY-MM-DD'),
+        concept: this.selectedConcept.concept.code,
+        slot: slot.code,
       };
 
-      this.store.dispatch(ReservationActions.addReservation({ reservation }));
+      this.reservationFacade.add(reservation);
     }
   }
 
@@ -82,7 +95,7 @@ export class SelectDateComponent {
     this.store.dispatch(
       ReservationActions.deleteReservation({
         date: selectedConcept.date,
-        concept: selectedConcept.concept,
+        concept: selectedConcept.concept.code,
       })
     );
   }

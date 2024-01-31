@@ -9,42 +9,17 @@
     </a>
   </span>
   <div fxLayout="row">
-    <!-- <button mat-icon-button (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button> -->
-    <button mat-icon-button [mat-menu-trigger-for]="menu" [matTooltip]="(user$ | async)?.account || ''">
+    <button
+      mat-icon-button
+      [mat-menu-trigger-for]="menu"
+      [matTooltip]="(user$ | async)?.account || ''"
+    >
       <mat-icon>person</mat-icon>
     </button>
   </div>
 </mat-toolbar>
-<!-- <mat-toolbar
-  color="primary"
-  fxLayout="row"
-  fxLayoutAlign="space-between center"
->
-  <span>
-    <a routerLink="/" style="display: flex">
-      <img src="assets/images/logo-white.svg" style="width: 150px" />
-    </a>
-  </span>
-  <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <button mat-button (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      Logout
-    </button>
-    <button mat-icon-button routerLink="/game">
-      <mat-icon>person</mat-icon>
-    </button>
-  </div>
-  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
-    <mat-icon>menu</mat-icon>
-  </button>
-</mat-toolbar> -->
+
 <mat-menu x-position="before" #menu="matMenu">
-  <!-- <button mat-menu-item routerLink="/game">
-   <mat-icon>gamepad</mat-icon>
-    Play
-  </button>  -->
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     Logout

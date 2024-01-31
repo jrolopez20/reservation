@@ -1,22 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
-import { Reservation } from './reservation.model';
+import { CreateReservationDto, Reservation } from './reservation.model';
+import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../core/services';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ReservationService {
-  getAll(userId: string): Observable<Reservation[]> {
-    return of([
-      // {
-      //   id: 'ji349m93c2423',
-      //   startAt: new Date(),
-      //   endAt: new Date(),
-      //   concept: {
-      //     id: 'a4dg6x1',
-      //     code: 'Work station',
-      //     slots: [{ code: '1', podition: 1, enabled: false }],
-      //   },
-      //   user: 'javi',
-      // },
-    ]).pipe(delay(2000));
+  private readonly hostUrl: string;
+
+  constructor(private http: HttpClient, private configService: ConfigService) {
+    this.hostUrl = this.configService.getAPIUrl();
+  }
+
+  getAll(concept: string, startDate: Date): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(
+      `${this.hostUrl}/concepts/${concept}/reserves`,
+      {
+        params: {
+          startDate: startDate.toDateString(),
+        },
+      }
+    );
+  }
+
+  add(reservation: CreateReservationDto): Observable<Reservation> {
+    return this.http.post<Reservation>(
+      `${this.hostUrl}/me/reserves`,
+      reservation
+    );
   }
 }

@@ -2,6 +2,7 @@ import { Concept } from './../concept/concept.model';
 import { createReducer, on } from '@ngrx/store';
 import { Reservation } from './reservation.model';
 import * as ReservationActions from './actions';
+import { addReservationSuccess, addReservationFailure } from './actions';
 export const reservationFeatureKey = 'reservation';
 
 export interface ReservationState {
@@ -36,17 +37,29 @@ export const reservationReducer = createReducer(
     loading: false,
   })),
 
-  on(ReservationActions.addReservation, (state, { reservation }) => ({
+  on(ReservationActions.addReservation, (state) => ({
+    ...state,
+    loading: true,
+  })),
+
+  on(ReservationActions.addReservationSuccess, (state, { reservation }) => ({
     ...state,
     reservations: [...state.reservations, reservation],
+    loading: false,
+  })),
+
+  on(ReservationActions.addReservationFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   })),
 
   on(ReservationActions.deleteReservation, (state, { date, concept }) => ({
     ...state,
     reservations: state.reservations.filter((item) => {
       return !(
-        item.concept.id === concept.id &&
-        item.startAt.toDateString() === date.toDateString()
+        item.concept === concept &&
+        item.date.toDateString() === date.toDateString()
       );
     }),
   }))
