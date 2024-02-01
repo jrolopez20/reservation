@@ -53,10 +53,9 @@ export class AuthEffects {
       return this.actions$.pipe(
         ofType(AuthActions.logout),
         exhaustMap(() => {
-          this.router.navigateByUrl('/');
-          return this.authService
-            .logout()
-            .pipe(finalize(() => this.tokenStorageService.removeTokens()));
+          this.tokenStorageService.removeTokens();
+          this.router.navigateByUrl('/login');
+          return of();
         })
       );
     },

@@ -16,6 +16,7 @@
     <div class="item" fxFlex="20" fxFlex.xs="25">
       <app-slot
         [slot]="slot"
+        [reserved]="!!(reservationFacade.isSlotReserved(date, concept, slot) | async)"
         (slotSelected)="onSlotSelected($event)"
       ></app-slot>
     </div>

@@ -38,9 +38,10 @@ export class AuthService {
    * @param {('all' | 'allButCurrent' | 'current')} [clients='current']
    * @returns Observable<void>
    */
-  logout(): Observable<void> {
-    return this.http.get<void>(`${this.hostUrl}/logout`);
-  }
+  // Not implemented
+  // logout(): Observable<void> {
+  //   return this.http.get<void>(`${this.hostUrl}/logout`);
+  // }
 
   /**
    * Returns authenticated user

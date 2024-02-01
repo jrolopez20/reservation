@@ -9,10 +9,11 @@ import { Slot } from '../../../store/concept/concept.model';
 })
 export class SlotComponent {
   @Input({ required: true }) slot!: Slot;
+  @Input() reserved: boolean = false;
   @Output() slotSelected = new EventEmitter<Slot>();
 
   onClick() {
-    if (this.slot.enabled) {
+    if (this.slot.enabled && !this.reserved) {
       this.slotSelected.emit(this.slot);
     }
   }

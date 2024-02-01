@@ -9,7 +9,6 @@
     }
   },
   "schedule": {
-    "label": "Schedule",
-    "tooltip": "Schedule the selected concepts"
+    "label": "Schedule"
   }
 }

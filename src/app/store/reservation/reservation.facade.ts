@@ -3,7 +3,10 @@ import { Store } from '@ngrx/store';
 import * as ReservationActions from './actions';
 import * as ReservationSelectors from './selectors';
 import { AppState } from '../store';
-import { CreateReservationDto } from './reservation.model';
+import { CreateReservationDto, Reservation } from './reservation.model';
+import { Concept, Slot } from '../concept/concept.model';
+import { Observable, combineLatest, map } from 'rxjs';
+import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationFacade {
@@ -16,6 +19,29 @@ export class ReservationFacade {
   getAll(concept: string, startDate: Date) {
     this.store.dispatch(
       ReservationActions.loadReservations({ concept, startDate })
+    );
+  }
+
+  isSlotReserved(
+    date: Date,
+    concept: Concept,
+    slot: Slot
+  ): Observable<Reservation | undefined> {
+    return this.reservations$.pipe(
+      map((array) => {
+        return array.find((reservation) => {
+          console.log(
+            reservation.date.toString(),
+            moment(date).format('YYYY-MM-DD')
+          );
+
+          return (
+            reservation.concept === concept.code &&
+            reservation.date.toString() === moment(date).format('YYYY-MM-DD') &&
+            reservation.slot === slot.code
+          );
+        });
+      })
     );
   }
 

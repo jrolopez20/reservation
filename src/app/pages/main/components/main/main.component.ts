@@ -17,11 +17,7 @@ import { AuthFacade } from '../../../../store/auth/auth.facade';
 export class MainComponent {
   user$ = this.authFacade.user$;
 
-  constructor(
-    private store: Store<AppState>,
-    private router: Router,
-    private authFacade: AuthFacade
-  ) {
+  constructor(private store: Store<AppState>, private authFacade: AuthFacade) {
     this.loadConcepts();
   }
 
@@ -29,9 +25,7 @@ export class MainComponent {
     this.store.dispatch(ConceptActions.loadConcepts());
   }
 
-
-
   public logout(): void {
-    this.router.navigate(['/login']);
+    this.authFacade.logout();
   }
 }
