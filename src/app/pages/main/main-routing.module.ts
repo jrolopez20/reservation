@@ -17,6 +17,11 @@ const routes: Routes = [
         path: 'schedule',
         component: SelectDateComponent,
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./profile/profile.module').then((m) => m.ProfileModule),
+      },
     ],
   },
 ];

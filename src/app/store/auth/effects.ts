@@ -7,6 +7,7 @@ import * as AuthActions from './actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { TokenStorageService } from '../../core/services';
+import { changePasswordFailure } from './actions';
 
 @Injectable()
 export class AuthEffects {
@@ -85,4 +86,22 @@ export class AuthEffects {
     },
     { dispatch: false }
   );
+
+  changePassword$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.changePasswordRequest),
+      exhaustMap((action) =>
+        this.authService
+          .changePassword(action.currentPassword, action.currentPassword)
+          .pipe(
+            map(() => {
+              return AuthActions.changePasswordSuccess();
+            }),
+            catchError((error) =>
+              of(AuthActions.changePasswordFailure({ error }))
+            )
+          )
+      )
+    );
+  });
 }

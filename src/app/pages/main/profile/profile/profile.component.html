@@ -1,0 +1,84 @@
+@if (user$ | async; as user) {
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      {{ user.account.charAt(0) | uppercase }}
+    </div>
+    <mat-card-title>{{ user.account }}</mat-card-title>
+    <mat-card-subtitle>
+      <span class="state active">
+        {{ user.state }}
+      </span>
+      <span class="separator">|</span>
+      <span>last login {{ user.updatedAt | date : "medium" }}</span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Cambiar contraseña</p>
+    <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+      <mat-form-field>
+        <mat-label>Current password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="currentPassword"
+          name="currentPassword"
+          required
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error>The password is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>New password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="newPassword"
+          name="newPassword"
+          required
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error>The password is required </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Repeat password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="rePassword"
+          name="rePassword"
+          required
+        />
+        <mat-error>The password is required </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button>Cancel</button>
+    <button mat-button [disabled]="passwordForm.invalid || (loading$ | async)" (click)="onChangePassword()">
+      Save
+    </button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading$ | async">
+    <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+}

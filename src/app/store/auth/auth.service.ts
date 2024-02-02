@@ -17,14 +17,6 @@ export class AuthService {
     this.hostUrl = this.configService.getAPIUrl();
   }
 
-  /**
-   * Performs a request with user credentials
-   * in order to get auth tokens
-   *
-   * @param {string} account
-   * @param {string} password
-   * @returns Observable<AccessData>
-   */
   login(account: string, password: string): Observable<AccessData> {
     return this.http.post<AccessData>(`${this.hostUrl}/login`, {
       account,
@@ -43,13 +35,11 @@ export class AuthService {
   //   return this.http.get<void>(`${this.hostUrl}/logout`);
   // }
 
-  /**
-   * Returns authenticated user
-   * based on saved access token
-   *
-   * @returns {Observable<AuthUser>}
-   */
   getAuthUser(): Observable<AuthUser> {
     return this.http.get<AuthUser>(`${this.hostUrl}/me`);
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.patch<any>(`${this.hostUrl}/me/password`, {currentPassword, newPassword});
   }
 }

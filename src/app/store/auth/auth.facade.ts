@@ -5,11 +5,11 @@ import * as AuthSelectors from './selectors';
 import { selectAuthUser } from './selectors';
 import { AppState } from '../store';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthFacade {
   user$ = this.store.select(selectAuthUser);
   isLoggedIn$ = this.store.select(AuthSelectors.selectIsLoggedIn);
-  isLoadingLogin$ = this.store.select(AuthSelectors.selectIsLoadingLogin);
+  isLoading$ = this.store.select(AuthSelectors.selectIsLoadingLogin);
   hasLoginError$ = this.store.select(AuthSelectors.selectLoginError);
 
   constructor(private store: Store<AppState>) {}
@@ -24,5 +24,11 @@ export class AuthFacade {
 
   getAuthUser() {
     this.store.dispatch(AuthActions.getAuthUserRequest());
+  }
+
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.store.dispatch(
+      AuthActions.changePasswordRequest({ currentPassword, newPassword })
+    );
   }
 }

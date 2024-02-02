@@ -29,7 +29,6 @@ export const authReducer = createReducer(
     })
   ),
 
-  // Login
   on(
     AuthActions.loginSuccess,
     (state): AuthState => ({
@@ -71,6 +70,33 @@ export const authReducer = createReducer(
     AuthActions.getAuthUserFailure,
     (): AuthState => ({
       ...initialState,
+    })
+  ),
+
+  // Change password
+  on(
+    AuthActions.changePasswordRequest,
+    (state): AuthState => ({
+      ...state,
+      loading: true,
+      error: false,
+    })
+  ),
+
+  on(
+    AuthActions.changePasswordSuccess,
+    (state): AuthState => ({
+      ...state,
+      loading: false,
+    })
+  ),
+
+  on(
+    AuthActions.changePasswordFailure,
+    (state, action): AuthState => ({
+      ...state,
+      loading: false,
+      error: !!action.error,
     })
   )
 );

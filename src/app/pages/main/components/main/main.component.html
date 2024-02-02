@@ -20,8 +20,11 @@
 </mat-toolbar>
 
 <mat-menu x-position="before" #menu="matMenu">
+  <a mat-menu-item routerLink="/profile">
+    My profile
+  </a>
   <button mat-menu-item (click)="logout()">
-    <mat-icon>exit_to_app</mat-icon>
+    <!-- <mat-icon>exit_to_app</mat-icon> -->
     Logout
   </button>
 </mat-menu>

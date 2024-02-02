@@ -23,7 +23,7 @@ export class LoginComponent {
     account: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
-  isLoading$ = this.authFacade.isLoadingLogin$;
+  isLoading$ = this.authFacade.isLoading$;
   showLoginError$ = this.authFacade.hasLoginError$;
 
   constructor(private authFacade: AuthFacade) {}

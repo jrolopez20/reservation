@@ -23,3 +23,16 @@ export const getAuthUserSuccess = createAction(
   props<{ user: AuthUser }>()
 );
 export const getAuthUserFailure = createAction('[Auth] Auth User Failure');
+
+// Change password
+export const changePasswordRequest = createAction(
+  '[Auth] Change Password Request',
+  props<{ currentPassword: string; newPassword: string }>()
+);
+export const changePasswordSuccess = createAction(
+  '[Auth] Change Password Success'
+);
+export const changePasswordFailure = createAction(
+  '[Auth] Change Password Failure',
+  props<{ error: Error }>()
+);
