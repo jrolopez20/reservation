@@ -92,7 +92,7 @@ export class AuthEffects {
       ofType(AuthActions.changePasswordRequest),
       exhaustMap((action) =>
         this.authService
-          .changePassword(action.currentPassword, action.currentPassword)
+          .changePassword(action.currentPassword, action.newPassword)
           .pipe(
             map(() => {
               return AuthActions.changePasswordSuccess();
