@@ -31,5 +31,7 @@ ng build --configuration production --base-href https://jrolopez20.github.io/res
 ngh --dir=dist/reservation/browser
 
 1- Run backend with ngrock
+3- Run NGROK:
+  ngrok http http://localhost:3000
 2- Copy generated url an set it in production environment file
 2- Execute github pages steps
