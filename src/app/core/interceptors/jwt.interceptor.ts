@@ -19,7 +19,10 @@ export class JwtInterceptor implements HttpInterceptor {
     const accessToken = this.tokenStorageService.getAccessToken();
     if (accessToken) {
       req = req.clone({
-        setHeaders: { Authorization: `Bearer ${accessToken}` },
+        setHeaders: {
+          Authorization: `Bearer ${accessToken}`,
+          'ngrok-skip-browser-warning': 'YES', // This is just for demo purpose
+        },
       });
     }
 
