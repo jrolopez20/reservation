@@ -29,3 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## github page deploy steps
 ng build --configuration production --base-href https://jrolopez20.github.io/reservation/
 ngh --dir=dist/reservation/browser
+
+1- Run backend with ngrock
+2- Copy generated url an set it in production environment file
+2- Execute github pages steps
